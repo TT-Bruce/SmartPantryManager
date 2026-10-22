@@ -39,3 +39,12 @@ Recipes are suggested only when all requirements are met.
 
 Project Author
 Developed as part of the Mobile Application Development 700 assignment.
+
+Application Navigation
+The application includes the following screens:
+
+1. Pantry List: Displays stored ingredients and provides options to add, edit, or delete them.
+2. Add/Edit Ingredient: Allows users to enter ingredient names, quantities, and units.
+3. Suggested Recipes: Displays recipes only when all required ingredients and quantities are available in the pantry.
+4. Recipe Detail: Shows the ingredients and cooking instructions for a selected recipe.
+5. Settings: Provides access to the application's settings screen.
