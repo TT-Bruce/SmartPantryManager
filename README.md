@@ -48,3 +48,13 @@ The application includes the following screens:
 3. Suggested Recipes: Displays recipes only when all required ingredients and quantities are available in the pantry.
 4. Recipe Detail: Shows the ingredients and cooking instructions for a selected recipe.
 5. Settings: Provides access to the application's settings screen.
+
+Database Design
+The Smart Pantry Manager application uses SQLite to store pantry ingredients and recipes locally on the device.
+
+The database contains three main tables:
+Ingredients: Stores ingredient names, quantities and units.
+Recipes: Stores recipe names and cooking methods.
+Recipe Ingredients: Connects recipes to their required ingredients and quantities.
+The application checks the Recipe Ingredients table against the pantry data to determine whether every required ingredient is available in sufficient quantities before suggesting a recipe.
+SQLite was chosen because it works locally on Android devices and allows data to remain saved between application sessions.
