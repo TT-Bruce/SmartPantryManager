@@ -48,3 +48,15 @@ The application includes the following screens:
 3. Suggested Recipes: Displays recipes only when all required ingredients and quantities are available in the pantry.
 4. Recipe Detail: Shows the ingredients and cooking instructions for a selected recipe.
 5. Settings: Provides access to the application's settings screen.
+
+Testing:
+The Smart Pantry Manager application was tested to ensure that its main features work correctly.
+
+Add ingredients: Ingredients can be added to the pantry with a name, quantity and unit.
+Input validation: The app displays an error when required fields are empty or the quantity is zero.
+Edit and delete: Existing pantry ingredients can be edited or deleted.
+Database persistence: Pantry ingredients remain saved after closing and reopening the application.
+Strict recipe matching: Recipes are suggested only when all required ingredients are available in sufficient quantities.
+Insufficient ingredients: Vegetable Rice disappears from Suggested Recipes when the available Rice quantity is reduced below the required amount.
+Recipe details: Users can open a suggested recipe to view its ingredients and cooking method.
+Navigation: Users can access Pantry, Suggested Recipes and Settings through the application menu.
