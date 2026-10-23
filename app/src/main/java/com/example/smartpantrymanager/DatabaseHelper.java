@@ -1,3 +1,4 @@
+
 package com.example.smartpantrymanager;
 
 import android.content.ContentValues;
@@ -9,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "SmartPantry.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_INGREDIENTS = "ingredients";
     public static final String COLUMN_ID = "id";
@@ -38,6 +39,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Preserve existing pantry ingredients during upgrades.
         if (oldVersion < 2) {
+            createRecipeTables(db);
+        }
+
+        // Add any new starter recipes without deleting existing data.
+        if (oldVersion < 3) {
             createRecipeTables(db);
             seedRecipes(db);
         }
@@ -133,7 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // READ: Return only recipes with every required ingredient
-    // available in at least the required quantity and matching unit.
+    // available in sufficient quantity and with the matching unit.
     public Cursor getSuggestedRecipes() {
         String sql =
                 "SELECT r.id, r.name, r.method " +
@@ -166,8 +172,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
-    // Add the starter recipes the first time the database is created.
+    // Add 20 starter recipes to the database.
     private void seedRecipes(SQLiteDatabase db) {
+
         addRecipe(db, "Tomato Rice",
                 "1. Cook the rice until tender.\n" +
                         "2. Chop and cook the tomato with oil.\n" +
@@ -318,8 +325,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         {"Rice", "1", "cups"},
                         {"Tomato", "1", "items"}
                 });
+
+        // Recipe 16
+        addRecipe(db, "Vegetable Rice",
+                "1. Cook the rice until tender.\n" +
+                        "2. Chop and cook the vegetables in oil.\n" +
+                        "3. Mix the vegetables with the rice and serve.",
+                new String[][]{
+                        {"Rice", "1", "cups"},
+                        {"Carrot", "1", "items"},
+                        {"Oil", "1", "tbsp"}
+                });
+
+        // Recipe 17
+        addRecipe(db, "Cheese Pasta",
+                "1. Cook the pasta until tender.\n" +
+                        "2. Add cheese and a little cooking water.\n" +
+                        "3. Stir until creamy and serve.",
+                new String[][]{
+                        {"Pasta", "2", "cups"},
+                        {"Cheese", "0.5", "cups"}
+                });
+
+        // Recipe 18
+        addRecipe(db, "Garlic Rice",
+                "1. Cook the rice.\n" +
+                        "2. Gently cook chopped garlic in oil.\n" +
+                        "3. Mix the garlic oil into the rice.",
+                new String[][]{
+                        {"Rice", "1", "cups"},
+                        {"Garlic", "2", "cloves"},
+                        {"Oil", "1", "tbsp"}
+                });
+
+        // Recipe 19
+        addRecipe(db, "Potato and Cheese Bake",
+                "1. Boil the potatoes until almost tender.\n" +
+                        "2. Place them in an oven-safe dish and add cheese.\n" +
+                        "3. Bake until the cheese melts and serve.",
+                new String[][]{
+                        {"Potato", "2", "items"},
+                        {"Cheese", "0.5", "cups"}
+                });
+
+        // Recipe 20
+        addRecipe(db, "Tomato Omelette",
+                "1. Beat the eggs and chop the tomato.\n" +
+                        "2. Cook the tomato briefly in oil.\n" +
+                        "3. Add the eggs and cook until set.",
+                new String[][]{
+                        {"Egg", "2", "items"},
+                        {"Tomato", "1", "items"},
+                        {"Oil", "1", "tbsp"}
+                });
     }
 
+    // Insert a recipe and its required ingredients.
     private void addRecipe(
             SQLiteDatabase db,
             String name,
@@ -353,6 +414,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (!cursor.moveToFirst()) {
                 return;
             }
+
             recipeId = cursor.getInt(0);
         } finally {
             cursor.close();
@@ -380,11 +442,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put("recipe_id", recipeId);
             values.put("ingredient_name", ingredient[0]);
-            values.put("required_quantity",
-                    Double.parseDouble(ingredient[1]));
+            values.put(
+                    "required_quantity",
+                    Double.parseDouble(ingredient[1])
+            );
             values.put("unit", ingredient[2]);
 
-            db.insert(TABLE_RECIPE_INGREDIENTS, null, values);
+            db.insert(
+                    TABLE_RECIPE_INGREDIENTS,
+                    null,
+                    values
+            );
         }
     }
 }
