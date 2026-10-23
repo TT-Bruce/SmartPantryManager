@@ -58,3 +58,35 @@ Recipes: Stores recipe names and cooking methods.
 Recipe Ingredients: Connects recipes to their required ingredients and quantities.
 The application checks the Recipe Ingredients table against the pantry data to determine whether every required ingredient is available in sufficient quantities before suggesting a recipe.
 SQLite was chosen because it works locally on Android devices and allows data to remain saved between application sessions.
+
+How to Run the Application
+
+Open the Smart Pantry Manager project in Android Studio.
+
+Allow Gradle to finish syncing.
+
+Start an Android emulator or connect an Android device.
+
+Click the Run button to install and launch the application.
+
+Technologies Used
+
+Java for application logic.
+
+SQLite for local database storage.
+
+Android Studio for development.
+
+XML for user interface layouts.
+
+Main Features
+
+Add and manage pantry ingredients.
+
+Store ingredient information locally.
+
+View available ingredients.
+
+Suggest recipes based on available ingredients.
+
+Validate user input to prevent invalid entries.
